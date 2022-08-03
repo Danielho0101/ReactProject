@@ -1,0 +1,7 @@
+.screen {
+    height: 36px;
+    background-color: lightgray;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: flex-end;
+}
