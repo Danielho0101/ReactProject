@@ -9,7 +9,7 @@ class Screen extends Component {
                     <div id="screen-chain">{this.props.calculationChain}</div>
                 </div>
                 <div className='screen'>
-                    <div id="screen-value">{this.props.currentValue}</div>
+                    <div id="screen-value">{this.props.totalValue || 0}</div>
                 </div>
             </div>
         );
