@@ -31,6 +31,12 @@ class Keyboard extends Component {
                     else if (btn === "AC") {
                         onClick = this.props.clickHandlers.clearClick;
                     }
+                    else if (btn === "%") {
+                        onClick = this.props.clickHandlers.percentageClick;
+                    }
+                    else if (btn === "+/-") {
+                        onClick = this.props.clickHandlers.invertClick;
+                    }
                     return <Button key={i} btn={btn} color={color} onClick={onClick} />
                 })}
             </div>

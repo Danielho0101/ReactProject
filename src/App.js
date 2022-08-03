@@ -21,6 +21,8 @@ class App extends Component {
     this.numClick = this.numClick.bind(this);
     this.decimalClick = this.decimalClick.bind(this);
     this.clearClick = this.clearClick.bind(this);
+    this.percentageClick = this.percentageClick.bind(this);
+    this.invertClick = this.invertClick.bind(this)
   }
 
   numClick(event) {
@@ -59,7 +61,7 @@ class App extends Component {
   }
 
   arithmeticClick(event) {
-
+    
   }
 
   equalClick(event) {
@@ -67,11 +69,17 @@ class App extends Component {
   }
 
   percentageClick(event) {
-
+    this.setState({
+      currentValue: parseFloat((Number(this.state.currentValue) /100).toFixed(10)).toString(),
+      calculationChain: parseFloat((Number(this.state.calculationChain) /100).toFixed(10)).toString()
+    });
   }
 
-  positiveNegativeClick(event) {
-
+  invertClick(event) {
+    this.setState({
+      currentValue: (Number(this.state.currentValue) * -1).toString(),
+      calculationChain: (Number(this.state.calculationChain) * -1).toString()
+    });
   }
 
   render() {
@@ -88,7 +96,7 @@ class App extends Component {
           equalClick: this.equalClick,
           clearClick: this.clearClick,
           percentageClick: this.percentageClick,
-          positiveNegativeClick: this.positiveNegativeClick
+          invertClick: this.invertClick
         }} />
       </div>
     );
