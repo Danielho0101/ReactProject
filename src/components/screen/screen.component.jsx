@@ -3,10 +3,11 @@ import './screen.styles.css';
 
 class Screen extends Component {
     render() {
+        const {calculationChain, currentValue, totalValue} = this.props;
         return (
             <div className="screen">
-                <div className='item1'>{this.props.calculationChain}</div>
-                <div className='item2'>{this.props.totalValue || 0}</div>
+                <div className='item1'>{calculationChain}</div>
+                <div className='item2'>{totalValue === null? currentValue:totalValue}</div>
             </div>
         );
     }

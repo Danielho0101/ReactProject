@@ -1,6 +1,5 @@
 import './App.css';
 import { Component } from 'react';
-// import Keyboard from './components/keyboard/keyboard.component';
 import Screen from './components/screen/screen.component';
 import Button from './components/button/button.component'
 
@@ -16,7 +15,7 @@ class App extends Component {
         "+": (current, last) => Number(last) + Number(current),
         "-": (current, last) => Number(last) - Number(current),
         "x": (current, last) => Number(last) * Number(current),
-        "/": (current, last) => Number(current) === 0? 0 : Number(last) / Number(current)
+        "÷": (current, last) => Number(current) === 0? 0 : Number(last) / Number(current)
       }
     };
     this.numClick = this.numClick.bind(this);
@@ -33,7 +32,7 @@ class App extends Component {
     let newCalChain;
     const clickedValue = event.target.innerHTML;
 
-    // if after %, reset
+    // prevent enter number after % and =
     if (this.state.calculationChain.at(-1) === "%") {return;}
     if (!this.state.operator && this.state.totalValue) {return;}
 
@@ -73,7 +72,7 @@ class App extends Component {
 
   arithmeticClick(event) {
     // cannot operate if the second value is not yet provided
-    if ("+-x/".includes(this.state.calculationChain.at(-1))) {return;}
+    if ("+-x÷".includes(this.state.calculationChain.at(-1))) {return;}
     const newOperator = event.target.innerHTML;
     const newCalChain = this.state.calculationChain + newOperator;
 
@@ -87,8 +86,10 @@ class App extends Component {
     }
     else {
       const calculate = this.state.arithmetics[this.state.operator];
+      let updateValue = calculate(this.state.currentValue, this.state.totalValue);
+      updateValue = parseFloat(updateValue.toFixed(10)).toString()
       this.setState({
-        totalValue: calculate(this.state.currentValue, this.state.totalValue).toString(),
+        totalValue: updateValue,
         currentValue: "",
         operator: newOperator,
         calculationChain: newCalChain
@@ -98,10 +99,11 @@ class App extends Component {
 
   equalClick(event) {
     // cannot equal if 1) only the first value is entered;
-    // 2) double equal; 3) after +-x/
-    if (!this.state.operator || "+-x/".includes(this.state.calculationChain.at(-1))) {return;}
+    // 2) repeat equal; 3) after +-x/
+    if (!this.state.operator || "+-x÷".includes(this.state.calculationChain.at(-1))) {return;}
     const calculate = this.state.arithmetics[this.state.operator];
-    const updateValue = calculate(this.state.currentValue, this.state.totalValue).toString();
+    let updateValue = calculate(this.state.currentValue, this.state.totalValue);
+    updateValue = parseFloat(updateValue.toFixed(10)).toString()
     this.setState({
       totalValue: updateValue,
       currentValue: updateValue,
@@ -112,7 +114,7 @@ class App extends Component {
 
   percentageClick(event) {
     // cannot change to % after +-x/
-    if ("+-x/".includes(this.state.calculationChain.at(-1))) {return;}
+    if ("+-x÷".includes(this.state.calculationChain.at(-1))) {return;}
     const newCalChain = this.state.calculationChain + "x1%";
  
     if (!this.state.operator) {
@@ -148,11 +150,12 @@ class App extends Component {
 
   invertClick(event) {
     // cannot invert after +-x/
-    if ("+-x/".includes(this.state.calculationChain.at(-1))) {return;}
+    if ("+-x÷".includes(this.state.calculationChain.at(-1))) {return;}
     const chain = this.state.calculationChain;
     const index = chain.lastIndexOf(this.state.operator);
+    const endChain = chain.charAt(index+1) === "-"? chain.substring(index+2):`-${chain.substring(index+1)}`;
 
-    // first entry and after =
+    // first entry and after = (no operator, then times -1)
     if (!this.state.operator) {
       this.setState({
         currentValue: (Number(this.state.currentValue) * -1).toString(),
@@ -160,10 +163,11 @@ class App extends Component {
         calculationChain: chain + "x-1"
       });
     }
+    // while calculating with operator, invert the sign of the latest input
     else {
       this.setState({
         currentValue: (Number(this.state.currentValue) * -1).toString(),
-        calculationChain: chain.substring(0, index+1) + "-" + chain.substring(index+1)
+        calculationChain: chain.substring(0, index+1) + endChain
       });
     }
   }
@@ -176,50 +180,59 @@ class App extends Component {
     });
 
     const btnValues =  [
-      'C', '+/-', '%', '/',
+      'C', '+/-', '%', '÷',
       7, 8, 9, 'x',
       4, 5, 6, '-', 
       1, 2, 3, '+',
       ".", 0, '='];
 
     return (
-      <div className="box">
-        <div className="grid-container">
-          <Screen 
-            totalValue={this.state.totalValue} 
-            calculationChain={this.state.calculationChain} 
-          />
-          {btnValues.map((btn, i) => {
-            let onClick;
-            let classType = "item";
-            let btnType = "";
-            if (typeof btn === "number") {
-                onClick = this.numClick;
-            }
-            else if (btn === ".") {
-                onClick = this.decimalClick;
-            }
-            else if (btn === "C") {
-                onClick = this.clearClick;
-                btnType = "btn-c";
-            }
-            else if (btn === "%") {
-                onClick = this.percentageClick;
-            }
-            else if (btn === "+/-") {
-                onClick = this.invertClick;
-            }
-            else if ("+-x/".includes(btn)) {
-                onClick = this.arithmeticClick;
-            }
-            else if (btn === "=") {
-                onClick = this.equalClick;
-                classType = "item-equal";
-                btnType ="btn-equal";
-            }
-            return <Button key={i} btn={btn} classType={classType} btnType={btnType} onClick={onClick} />
-        })}
+      <div>
+        <nav class="nav">
+          <p class="nav-name">DIGIMON</p> 
+        </nav>
+        <div className="box">
+          <div className="grid-container">
+            <Screen 
+              totalValue={this.state.totalValue}
+              currentValue={this.state.currentValue} 
+              calculationChain={this.state.calculationChain}
+            />
+            {btnValues.map((btn, i) => {
+              let onClick;
+              let classType = "item";
+              let btnType = "";
+              if (typeof btn === "number") {
+                  onClick = this.numClick;
+              }
+              else if (btn === ".") {
+                  onClick = this.decimalClick;
+              }
+              else if (btn === "C") {
+                  onClick = this.clearClick;
+                  btnType = "btn-c";
+              }
+              else if (btn === "%") {
+                  onClick = this.percentageClick;
+              }
+              else if (btn === "+/-") {
+                  onClick = this.invertClick;
+              }
+              else if ("+-x÷".includes(btn)) {
+                  onClick = this.arithmeticClick;
+              }
+              else if (btn === "=") {
+                  onClick = this.equalClick;
+                  classType = "item-equal";
+                  btnType ="btn-equal";
+              }
+              return <Button key={i} btn={btn} classType={classType} btnType={btnType} onClick={onClick} />
+          })}
+          </div>
         </div>
+        <footer>
+          <p>Copyright &copy; Digimon 2022</p>
+        </footer>
       </div>     
     );
   }
