@@ -1,20 +1,20 @@
-.btn {
+/* .btn {
     width: 70%;
     height: 32px;
     border-radius: 5px;
-    /* font-size: 20px; */
+    font-size: 20px;
     cursor: pointer;
-}
+} */
 
-.btn0 {
+/* .btn0 {
     grid-column: 1 / span 2;
     width: 80%;
-}
+} */
 
-.sign {
+/* .sign {
     background-color: orange;
-}
+} */
 
-.digit {
+/* .digit {
     background-color: grey;
-}
+} */

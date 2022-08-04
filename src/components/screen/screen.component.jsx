@@ -4,13 +4,9 @@ import './screen.styles.css';
 class Screen extends Component {
     render() {
         return (
-            <div>
-                <div className='screen'>
-                    <div id="screen-chain">{this.props.calculationChain}</div>
-                </div>
-                <div className='screen'>
-                    <div id="screen-value">{this.props.totalValue || 0}</div>
-                </div>
+            <div className="screen">
+                <div className='item1'>{this.props.calculationChain}</div>
+                <div className='item2'>{this.props.totalValue || 0}</div>
             </div>
         );
     }

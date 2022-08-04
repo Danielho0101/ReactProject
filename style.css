@@ -47,7 +47,7 @@
 	align-items: center;
 /*	font-size: 30px;	*/
 }
-
+ 
 .item-equal {
 	grid-column-start: 3;
     grid-column-end:5;	
