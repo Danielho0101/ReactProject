@@ -13,8 +13,8 @@ class App extends Component {
       calculationChain: "0",
       arithmetics: {
         "+": (current, last) => Number(last) + Number(current),
-        "-": (current, last) => Number(last) - Number(current),
-        "x": (current, last) => Number(last) * Number(current),
+        "−": (current, last) => Number(last) - Number(current),
+        "×": (current, last) => Number(last) * Number(current),
         "÷": (current, last) => Number(current) === 0? 0 : Number(last) / Number(current)
       }
     };
@@ -72,7 +72,7 @@ class App extends Component {
 
   arithmeticClick(event) {
     // cannot operate if the second value is not yet provided
-    if ("+-x÷".includes(this.state.calculationChain.at(-1))) {return;}
+    if ("+−×÷".includes(this.state.calculationChain.at(-1))) {return;}
     const newOperator = event.target.innerHTML;
     const newCalChain = this.state.calculationChain + newOperator;
 
@@ -100,7 +100,7 @@ class App extends Component {
   equalClick(event) {
     // cannot equal if 1) only the first value is entered;
     // 2) repeat equal; 3) after +-x/
-    if (!this.state.operator || "+-x÷".includes(this.state.calculationChain.at(-1))) {return;}
+    if (!this.state.operator || "+−×÷".includes(this.state.calculationChain.at(-1))) {return;}
     const calculate = this.state.arithmetics[this.state.operator];
     let updateValue = calculate(this.state.currentValue, this.state.totalValue);
     updateValue = parseFloat(updateValue.toFixed(10)).toString()
@@ -114,7 +114,7 @@ class App extends Component {
 
   percentageClick(event) {
     // cannot change to % after +-x/
-    if ("+-x÷".includes(this.state.calculationChain.at(-1))) {return;}
+    if ("+−×÷".includes(this.state.calculationChain.at(-1))) {return;}
     const newCalChain = this.state.calculationChain + "x1%";
  
     if (!this.state.operator) {
@@ -150,7 +150,7 @@ class App extends Component {
 
   invertClick(event) {
     // cannot invert after +-x/
-    if ("+-x÷".includes(this.state.calculationChain.at(-1))) {return;}
+    if ("+−×÷".includes(this.state.calculationChain.at(-1))) {return;}
     const chain = this.state.calculationChain;
     const index = chain.lastIndexOf(this.state.operator);
     const endChain = chain.charAt(index+1) === "-"? chain.substring(index+2):`-${chain.substring(index+1)}`;
@@ -180,9 +180,9 @@ class App extends Component {
     });
 
     const btnValues =  [
-      'C', '+/-', '%', '÷',
-      7, 8, 9, 'x',
-      4, 5, 6, '-', 
+      'C', '%', '±', '÷',
+      7, 8, 9, '×',
+      4, 5, 6, '−', 
       1, 2, 3, '+',
       ".", 0, '='];
 
@@ -215,10 +215,10 @@ class App extends Component {
               else if (btn === "%") {
                   onClick = this.percentageClick;
               }
-              else if (btn === "+/-") {
+              else if (btn === "±") {
                   onClick = this.invertClick;
               }
-              else if ("+-x÷".includes(btn)) {
+              else if ("+−×÷".includes(btn)) {
                   onClick = this.arithmeticClick;
               }
               else if (btn === "=") {
