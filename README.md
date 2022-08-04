@@ -68,3 +68,30 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# Digimon
+ 
+ This is a online calculator
+## Support
+
+For support, https://tonylo22.github.io/group-page/.
+
+
+## Feedback
+
+If you have any feedback, please reach out to us at  https://tonylo22.github.io/group-page/
+
+
+## 🔗 Links
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/tony-lo-825a76242/)
+
+
+
+## Running Tests
+
+To run tests, run the following command
+
+```bash
+  npm  test
+```
+
