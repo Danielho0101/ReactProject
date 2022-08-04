@@ -8,7 +8,7 @@ class Keyboard extends Component {
         this.state = {
             btnValues: 
                 ['AC', '+/-', '%', '/',
-                7, 8, 9, 'X',
+                7, 8, 9, 'x',
                 4, 5, 6, '-', 
                 1, 2, 3, '+',
                 0, '.', '=']
@@ -36,6 +36,12 @@ class Keyboard extends Component {
                     }
                     else if (btn === "+/-") {
                         onClick = this.props.clickHandlers.invertClick;
+                    }
+                    else if ("+-x/".includes(btn)) {
+                        onClick = this.props.clickHandlers.arithmeticClick;
+                    }
+                    else if (btn === "=") {
+                        onClick = this.props.clickHandlers.equalClick;
                     }
                     return <Button key={i} btn={btn} color={color} onClick={onClick} />
                 })}
