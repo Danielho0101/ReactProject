@@ -188,8 +188,8 @@ class App extends Component {
 
     return (
       <div>
-        <nav class="nav">
-          <p class="nav-name">DIGIMON</p> 
+        <nav className="nav">
+          <p className="nav-name">DIGIMON</p> 
         </nav>
         <div className="box">
           <div className="grid-container">
